@@ -48,12 +48,12 @@
 
             <Button android:id="@+id/email_sign_in_button"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" android:text="@string/action_sign_in_short"
+                android:layout_marginTop="5dp" android:text="@string/action_sign_in_short"
                 android:textStyle="bold" />
 
             <Button android:id="@+id/forgot_credentials_button"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" android:text="@string/action_forgot_credentials"
+                android:layout_marginTop="2dp" android:text="@string/action_forgot_credentials"
                 android:textStyle="bold"
                 android:onClick="resetPasswordDialog" />
 
@@ -61,10 +61,18 @@
                 android:id="@+id/create_account_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="2dp"
                 android:text="@string/action_create_account"
                 android:textStyle="bold"
                 android:onClick="createAccount" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Settings Menu"
+                android:id="@+id/button2"
+                android:onClick="accessSettings"
+                android:layout_gravity="center_horizontal" />
             <!-- Added by Todd 10/18/2015 12:29pm
             <Button
                 android:layout_width="301dp"
@@ -73,13 +81,6 @@
                 android:id="@+id/button2"
                 android:layout_gravity="center_horizontal"
                 android:onClick="accessSettings"/> -->
-            <Button
-                android:layout_width="301dp"
-                android:layout_height="wrap_content"
-                android:text="Settings"
-                android:id="@+id/button2"
-                android:layout_gravity="center_horizontal"
-                android:onClick="accessSettings"/>
         </LinearLayout>
     </ScrollView>
 
