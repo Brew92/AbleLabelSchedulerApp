@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Changed by Todd 10/10/2015 3:02pm
+     from <string name="domain">http://192.168.2.12/UCS</string>
+     to   <string name="domain">http://ucs.azurewebsites.net/UTA</string> -->
+    <string name="domain">http://ucs.azurewebsites.net/UTA</string>
+    <string name="create_account_base">/CreateAccount?</string>
+    <string name="create_account_param_username">username=</string>
+    <string name="create_account_param_password"><![CDATA[&password=]]></string>
+    <string name="create_account_param_hashedpwd"><![CDATA[&hashedpwd=]]></string>
+    <string name="create_account_param_email"><![CDATA[&email=]]></string>
+
+    <string name="validate_courses_base">/GetSectionInfo.php?</string>
+    <string name="validate_courses_param_semester">semester=</string>
+    <string name="validate_courses_param_sections"><![CDATA[&sections=]]></string>
+
+    <string name="email_exists_base">/UTA/EmailExists?email=</string>
+
+    <string name="sync_upload">/PHPincludes/sync.php</string>
+    <string name="sync_download">/PHPincludes/user_data.php</string>
+
+    <string name="logout_base">/Logout</string>
+    <string name="logout_param_email">email=</string>
+    <string name="logout_param_account_settings"><![CDATA[&accountSettings]]></string>
+
+    <string name="login_base">/PHPincludes/login_user.php?</string>
+    <string name="login_param_username">username=</string>
+    <string name="login_param_password"><![CDATA[&password=]]></string>
+    <string name="login_param_hashedpwd"><![CDATA[&hashedpwd=]]></string>
+
+    <string name="get_course_section_base">/GetCourseInfo.php?</string>
+    <string name="get_course_sections_param_semester">semester=</string>
+    <string name="get_course_sections_param_courses"><![CDATA[&courses=]]></string>
+
+    <!-- Changed by Todd 10/10/2015 3:02pm
+     from <string name="get_semester_data">/GetDepartmentClassData.JSON</string>
+     to   <string name="get_semester_data">/GetDepartmentClassData</string> -->
+    <string name="get_semester_data">/GetDepartmentClassData</string>
+
+    <string name="change_settings_base">/Change</string>
+    <string name="delete_account">/DeleteAccount?email=</string>
+</resources>
