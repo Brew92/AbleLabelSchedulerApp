@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
+/*Todd added on 10/31/2015 5:48pm
+* import android.content.SharedPreferences; */
+import android.content.SharedPreferences;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -58,9 +60,7 @@ public class HTTPService extends IntentService {
     private static final int connectionTimeoutMilliseconds = 10000; // 10 second timeout
 
     private static String sec_session_id = null;
-
     // Unused public static final String GOOD_RESPONSE = "{\"Success\":true}";
-
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -86,6 +86,7 @@ public class HTTPService extends IntentService {
 
         }
     }
+
 
     private HttpContext httpContext = null;
     private HttpContext getHttpContext(){
@@ -151,8 +152,10 @@ public class HTTPService extends IntentService {
     private void getURL(Intent intent){
 
         String response;
-
-        String urlString = intent.getStringExtra(REQUEST_URL).replace(" ", "");                         // Remove any whitespace
+        //Todd added on 10/31/2015 5:43pm
+        SharedPreferences preferences = UserData.getContext().getSharedPreferences(SPOOFED_RESPONSE, Context.MODE_PRIVATE);
+        String dataReceived = preferences.getString(SPOOFED_RESPONSE, null);
+        String urlString = intent.getStringExtra(REQUEST_URL).replace(" ", "");   // Remove any whitespace
         String source = intent.getStringExtra(SOURCE_INTENT);
 
 
@@ -167,7 +170,11 @@ public class HTTPService extends IntentService {
             }
         }
         else{
-            response = intent.getStringExtra(SPOOFED_RESPONSE);
+            // Todd removed response = intent.getStringExtra(SPOOFED_RESPONSE);
+
+            //Todd added
+            response = dataReceived;
+            //Todd end added
             Log.i("HTTPGetService", "Spoofing response");
         }
 
@@ -190,6 +197,7 @@ public class HTTPService extends IntentService {
         //Toast.makeText(getBaseContext(), "HTTPGetService has been created", Toast.LENGTH_LONG).show();
         Log.d("HTTPService", "IntentService onCreate() called");
         //messenger = new Messenger(new MessageHandler());
+
     }
 
     @Override
@@ -398,7 +406,7 @@ public class HTTPService extends IntentService {
      *                <br>EX: MainActivity.this
      */
 
-    public static void FetchURL(String urlToFetch, String recieverTag, Context context){
+    public static  void FetchURL(String urlToFetch, String recieverTag, Context context){
 
         urlToFetch = UserData.getContext().getResources().getString(R.string.domain) + urlToFetch;
 
@@ -428,7 +436,17 @@ public class HTTPService extends IntentService {
             }
 
             Log.i("HTTPService FetchURL", "Spoof Data:" + spoofData);
-            intent.putExtra(HTTPService.SPOOFED_RESPONSE, spoofData);
+            //Todd removed on 10/31/2015 6:35pm
+            //intent.putExtra(HTTPService.SPOOFED_RESPONSE, spoofData);
+            //Todd remove end
+            // Todd added on 10/31/2015 3:14pm
+            SharedPreferences preferences = UserData.getContext().getSharedPreferences(HTTPService.SPOOFED_RESPONSE, Context.MODE_PRIVATE);
+            SharedPreferences.Editor preferencesEditor = preferences.edit();
+            //preferencesEditor.clear();
+            preferencesEditor.putString(HTTPService.SPOOFED_RESPONSE, spoofData).commit();
+            String test = preferences.getString(HTTPService.SPOOFED_RESPONSE,null);
+            Log.i("HTTPService FetchURL", "Spoof Data stored:" + test);
+            //Todd add end
         }
         else{   // Attempt a real server response
 

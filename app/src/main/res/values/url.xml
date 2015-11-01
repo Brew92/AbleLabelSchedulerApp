@@ -28,7 +28,10 @@
     <string name="login_param_password"><![CDATA[&password=]]></string>
     <string name="login_param_hashedpwd"><![CDATA[&hashedpwd=]]></string>
 
-    <string name="get_course_section_base">/GetCourseInfo.php?</string>
+    <!-- Changed by Todd 11/1/2015 1:20pm
+     from <string name="get_course_section_base">/GetCourseInfo.php?</string>
+     to   <string name="get_course_section_base">/GetCourseInfo</string> -->
+    <string name="get_course_section_base">/GetCourseInfo?</string>
     <string name="get_course_sections_param_semester">semester=</string>
     <string name="get_course_sections_param_courses"><![CDATA[&courses=]]></string>
 

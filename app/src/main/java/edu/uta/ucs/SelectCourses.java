@@ -85,10 +85,13 @@ class SemesterInfo{
      * @throws JSONException
      */
     SemesterInfo(JSONObject semesterInfoRaw) throws JSONException {
-        this.semesterNumber = semesterInfoRaw.getInt("NUMBER");
-        this.semesterName = semesterInfoRaw.getString("DESCRIPTION");
+        //this.semesterNumber = semesterInfoRaw.getInt("NUMBER"); Todd removed
+        this.semesterNumber = semesterInfoRaw.getInt("SemesterNumber");
+        //this.semesterName = semesterInfoRaw.getString("DESCRIPTION"); Todd removed
+        this.semesterName = semesterInfoRaw.getString("SemesterName");
         Log.i("Semester Number", ((Integer) getSemesterNumber()).toString());
-        JSONArray departmentJSONArrayRaw = semesterInfoRaw.getJSONArray("DEPARTMENTS");
+        //JSONArray departmentJSONArrayRaw = semesterInfoRaw.getJSONArray("DEPARTMENTS"); Todd removed
+        JSONArray departmentJSONArrayRaw = semesterInfoRaw.getJSONArray("Departments");
         this.departmentArrayList = new ArrayList<>(departmentJSONArrayRaw.length());
 
         for(int index = departmentJSONArrayRaw.length(); index != 0;index--){
@@ -106,9 +109,12 @@ class SemesterInfo{
         JSONArray departmentInfoJSONArray = new JSONArray(departmentInfoArray);
 
         JSONObject semesterInfoJSON = new JSONObject();
-        semesterInfoJSON.put("NUMBER", ((Integer) this.getSemesterNumber()).toString());
-        semesterInfoJSON.put("DESCRIPTION", this.semesterName);
-        semesterInfoJSON.put("DEPARTMENTS", departmentInfoJSONArray);
+        //semesterInfoJSON.put("NUMBER", ((Integer) this.getSemesterNumber()).toString()); Todd removed
+        semesterInfoJSON.put("SemesterNumber", ((Integer) this.getSemesterNumber()).toString());
+        //semesterInfoJSON.put("DESCRIPTION", this.semesterName); Todd removed
+        semesterInfoJSON.put("SemesterName", this.semesterName);
+        //semesterInfoJSON.put("DEPARTMENTS", departmentInfoJSONArray);Todd removed
+        semesterInfoJSON.put("Departments", departmentInfoJSONArray);
         return semesterInfoJSON;
     }
 
@@ -159,9 +165,12 @@ class SemesterInfo{
          * @throws JSONException
          */
         public DepartmentInfo(JSONObject departmentInfoRaw) throws JSONException {
-            this.setDepartmentAcronym(departmentInfoRaw.getString("ACRONYM"));
-            this.setDepartmentTitle(departmentInfoRaw.getString("NAME"));//departmentInfoRaw.getString("Title");
-            JSONArray courseJSONArrayRaw = departmentInfoRaw.getJSONArray("COURSES");
+            //this.setDepartmentAcronym(departmentInfoRaw.getString("ACRONYM")); Todd removed
+            this.setDepartmentAcronym(departmentInfoRaw.getString("DepartmentAcronym")); //CSE
+            //this.setDepartmentTitle(departmentInfoRaw.getString("NAME"));//departmentInfoRaw.getString("Title"); Todd removed
+            this.setDepartmentTitle(departmentInfoRaw.getString("DepartmentName")); //Computer Science Engineering
+            //JSONArray courseJSONArrayRaw = departmentInfoRaw.getJSONArray("COURSES");
+            JSONArray courseJSONArrayRaw = departmentInfoRaw.getJSONArray("CourseNumbers");
             this.courses = new ArrayList<>(courseJSONArrayRaw.length());
 
             for(int index = courseJSONArrayRaw.length(); index != 0;index--){
@@ -187,9 +196,12 @@ class SemesterInfo{
 
             JSONObject departmentInfoJSON = new JSONObject();
 
-            departmentInfoJSON.put("ACRONYM",departmentAcronym);
-            departmentInfoJSON.put("NAME", departmentTitle);
-            departmentInfoJSON.put("COURSES", courseInfoJSONArray);
+            //departmentInfoJSON.put("ACRONYM",departmentAcronym); Todd removed
+            departmentInfoJSON.put("DepartmentAcronym",departmentAcronym);
+            //departmentInfoJSON.put("NAME", departmentTitle);
+            departmentInfoJSON.put("DepartmentName", departmentTitle);
+            //departmentInfoJSON.put("COURSES", courseInfoJSONArray);
+            departmentInfoJSON.put("CourseNumbers", courseInfoJSONArray);
 
             return departmentInfoJSON;
         }
@@ -236,8 +248,10 @@ class SemesterInfo{
              * @throws JSONException
              */
             public CourseInfo(JSONObject courseInfoJSONObject, DepartmentInfo departmentInfo) throws JSONException {
-                this.courseNumber = courseInfoJSONObject.getInt("ID");
-                this.courseTitle = courseInfoJSONObject.getString("NAME");
+                //this.courseNumber = courseInfoJSONObject.getInt("ID");Tdd removed
+                this.courseNumber = courseInfoJSONObject.getInt("CourseNumber");
+                //this.courseTitle = courseInfoJSONObject.getString("NAME"); //Todd removed
+                this.courseTitle = courseInfoJSONObject.getString("CourseName");
                 //Log.i("Course Details", "New Course Added:" + " " + this.courseNumber + " " + this.courseTitle);
                 this.departmentInfo = departmentInfo;
             }
@@ -252,8 +266,10 @@ class SemesterInfo{
 
             public JSONObject toJSON() throws JSONException {
                 JSONObject courseInfo = new JSONObject();
-                courseInfo.put("ID", courseNumber);
-                courseInfo.put("NAME", courseTitle);
+                //courseInfo.put("ID", courseNumber); Todd removed
+                courseInfo.put("CourseNumber", courseNumber);
+                //courseInfo.put("NAME", courseTitle); Todd removed
+                courseInfo.put("CourseName", courseTitle);
                 return courseInfo;
             }
 
