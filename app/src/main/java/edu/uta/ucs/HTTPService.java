@@ -354,6 +354,7 @@ public class HTTPService extends IntentService {
     public static void PostJSON(String targetURL, JSONObject jsonToPost,String recieverTag, Context context){
 
         targetURL = UserData.getContext().getResources().getString(R.string.domain) + targetURL;
+        //"https://ablesched.ddns.net:8080/test"; //+ targetURL;//UserData.getContext().getResources().getString(R.string.domain) + targetURL;
 
         Intent intent = new Intent(context, HTTPService.class);
         intent.putExtra(HTTPService.REQUEST_TYPE, HTTPService.REQUEST_JSON_POST);
@@ -406,9 +407,10 @@ public class HTTPService extends IntentService {
      *                <br>EX: MainActivity.this
      */
 
-    public static  void FetchURL(String urlToFetch, String recieverTag, Context context){
+    public static void FetchURL(String urlToFetch, String recieverTag, Context context){
 
         urlToFetch = UserData.getContext().getResources().getString(R.string.domain) + urlToFetch;
+        //"https://ablesched.ddns.net:8080/test";// + urlToFetch;//UserData.getContext().getResources().getString(R.string.domain) + urlToFetch;
 
         Intent intent = new Intent(context, HTTPService.class);
         intent.putExtra(HTTPService.REQUEST_TYPE, HTTPService.REQUEST_URL);

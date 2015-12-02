@@ -55,6 +55,7 @@ enum ClassStatus {
  */
 @SuppressWarnings("unused")
 enum Day {
+    SU("SU"),
     M("M"), //Todd changed M to MO
     TU("TU"),
     W("W"), //Todd changed W to WE

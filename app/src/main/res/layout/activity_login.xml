@@ -18,15 +18,14 @@
         android:layout_height="200dp"
         android:id="@+id/logo"
         android:src="@drawable/uta_mascot_2c"
-        android:layout_weight=".15"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp" />
 
     <ScrollView android:id="@+id/login_form" android:layout_width="300dp"
         android:layout_height="wrap_content">
 
-        <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical">
+        <GridLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:orientation="vertical">
 
             <AutoCompleteTextView android:id="@+id/email" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_email"
@@ -34,7 +33,9 @@
                 android:singleLine="true"
                 android:autoText="false"
                 android:imeOptions="actionNext"
-                android:background="@android:color/background_light" />
+                android:background="@android:color/background_light"
+                android:layout_row="0"
+                android:layout_column="0" />
 
             <EditText android:id="@+id/password" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_password"
@@ -44,18 +45,25 @@
                 android:maxLines="1" android:singleLine="true"
                 android:background="@android:color/background_light"
                 android:imeOptions="actionDone"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:layout_row="1"
+                android:layout_column="0" />
 
             <Button android:id="@+id/email_sign_in_button"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:layout_marginTop="5dp" android:text="@string/action_sign_in_short"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:singleLine="false"
+                android:layout_row="2"
+                android:layout_column="0" />
 
             <Button android:id="@+id/forgot_credentials_button"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:layout_marginTop="2dp" android:text="@string/action_forgot_credentials"
                 android:textStyle="bold"
-                android:onClick="resetPasswordDialog" />
+                android:onClick="resetPasswordDialog"
+                android:layout_row="3"
+                android:layout_column="0" />
 
             <Button
                 android:id="@+id/create_account_button"
@@ -64,26 +72,36 @@
                 android:layout_marginTop="2dp"
                 android:text="@string/action_create_account"
                 android:textStyle="bold"
-                android:onClick="createAccount" />
+                android:onClick="createAccount"
+                android:layout_row="4"
+                android:layout_column="0" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Settings Menu"
-                android:id="@+id/button2"
+                android:text="@string/action_settings_buttons"
+                android:id="@+id/settings_button"
                 android:onClick="accessSettings"
-                android:layout_gravity="center_horizontal" />
-            <!-- Added by Todd 10/18/2015 12:29pm
-            <Button
-                android:layout_width="301dp"
-                android:layout_height="wrap_content"
-                android:text="Settings"
-                android:id="@+id/button2"
                 android:layout_gravity="center_horizontal"
-                android:onClick="accessSettings"/> -->
-        </LinearLayout>
-    </ScrollView>
+                android:layout_row="5"
+                android:layout_column="0" />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/title_activity_view_calendar"
+                android:id="@+id/calendar_button"
+                android:layout_gravity="center_horizontal"
+                android:onClick="viewCalendar"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ServerRequest"
+                android:id="@+id/button2" />
+
+        </GridLayout>
+    </ScrollView>
 
 
 </LinearLayout>

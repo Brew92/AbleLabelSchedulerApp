@@ -27,6 +27,7 @@ import android.widget.ExpandableListView;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
@@ -369,6 +370,25 @@ class BlockoutCoursesAdapter extends BaseExpandableListAdapter {
     }
 }
 
+enum BlockType {
+    WORK("-1"),
+    COMMUTE("-2"),
+    SLEEP("-3"),
+    STUDY("-4"),
+    OTHER("-5");
+
+    private String value;
+
+    BlockType(final String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return this.value;
+    }
+}
+
 /**
  * This Activity allows the user to select times which should not be considered for scheduling
  * <p>Activity should be started for result via startActivityForResult</p>
@@ -378,7 +398,9 @@ public class SelectBlockoutTimes extends ActionBarActivity {
     public static final String BLOCKOUT_TIMES = "BLOCKOUT_TIMES";
 
     EditText nameBlockoutTime;
-    ToggleButton mondayToggleButton, tuesdayToggleButton, wednesdayToggleButton, thursdayToggleButton, fridayToggleButton, saturdayToggleButton;
+    BlockType type;
+    ToggleButton sundayToggleButton, mondayToggleButton, tuesdayToggleButton, wednesdayToggleButton, thursdayToggleButton, fridayToggleButton, saturdayToggleButton;
+    RadioButton workRadioButton, commuteRadioButton, sleepRadioButton, studyRadioButton, otherRadioButton;
     TimePicker startTimePicker, endTimePicker;
     ListView sectionListView;
     Button toggleTimePickersButton;
@@ -402,6 +424,14 @@ public class SelectBlockoutTimes extends ActionBarActivity {
 
         nameBlockoutTime = ((EditText) findViewById(R.id.blockout_time_name_edittext));
 
+
+        workRadioButton = ((RadioButton) findViewById(R.id.work_RadioButton));
+        commuteRadioButton = ((RadioButton) findViewById(R.id.commute_RadioButton));
+        sleepRadioButton = ((RadioButton) findViewById(R.id.sleep_RadioButton));
+        studyRadioButton = ((RadioButton) findViewById(R.id.study_RadioButton));
+        otherRadioButton = ((RadioButton) findViewById(R.id.other_RadioButton));
+
+        sundayToggleButton = ((ToggleButton) findViewById(R.id.sunday_toggleButton));
         mondayToggleButton = ((ToggleButton) findViewById(R.id.monday_toggleButton));
         tuesdayToggleButton = ((ToggleButton) findViewById(R.id.tuesday_toggleButton));
         wednesdayToggleButton = ((ToggleButton) findViewById(R.id.wednesday_toggleButton));
@@ -453,6 +483,7 @@ public class SelectBlockoutTimes extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
 
+        workRadioButton.setChecked(true);
         currentBlockoutTimes = new ArrayList<>();
 
         blockoutTimesListAdapter = new SectionArrayAdapter(SelectBlockoutTimes.this, R.layout.section_list_display, currentBlockoutTimes);
@@ -461,6 +492,15 @@ public class SelectBlockoutTimes extends ActionBarActivity {
         sectionListView.setAdapter(blockoutTimesListAdapter);
 
         // Set buttons to toggle colors. These can all be discarded if a proper style is setup and used for buttons.
+        sundayToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    buttonView.setBackgroundColor(getResources().getColor(R.color.utaOrange));
+                } else
+                    buttonView.setBackgroundColor(getResources().getColor(R.color.button_material_light));
+            }
+        });
         mondayToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -518,10 +558,9 @@ public class SelectBlockoutTimes extends ActionBarActivity {
         saturdayToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     buttonView.setBackgroundColor(getResources().getColor(R.color.utaOrange));
-                }
-                else
+                } else
                     buttonView.setBackgroundColor(getResources().getColor(R.color.button_material_light));
             }
         });
@@ -594,8 +633,30 @@ public class SelectBlockoutTimes extends ActionBarActivity {
             nameBlockoutTime.setText("");
         }
 
+        if( workRadioButton.isChecked())
+        {
+            type = BlockType.WORK;
+        }
+        else if( commuteRadioButton.isChecked())
+        {
+            type = BlockType.COMMUTE;
+        }
+        else if( sleepRadioButton.isChecked())
+        {
+            type = BlockType.SLEEP;
+        }
+        else if( studyRadioButton.isChecked())
+        {
+            type = BlockType.STUDY;
+        }
+        else if( otherRadioButton.isChecked())
+        {
+            type = BlockType.OTHER;
+        }
+
+
         Course newBlockoutCourse = new Course("BLOCKOUT","BLOCKOUT", "BLOCKOUT");
-        Section newBlockoutTime = new Section(-1, blockoutTimeName , "", newStartTime, newEndTime, newDayList, ClassStatus.OPEN, newBlockoutCourse);
+        Section newBlockoutTime = new Section(Integer.parseInt(type.toString()), blockoutTimeName , "", newStartTime, newEndTime, newDayList, ClassStatus.OPEN, newBlockoutCourse);
         newBlockoutCourse.addSection(newBlockoutTime);
 
         currentBlockoutTimes.add(newBlockoutTime);
@@ -782,6 +843,8 @@ public class SelectBlockoutTimes extends ActionBarActivity {
     private ArrayList<Day> getDays(){
         ArrayList<Day> results = new ArrayList<>();
 
+        if(sundayToggleButton.isChecked())
+            results.add(Day.valueOf("SU"));
         if(mondayToggleButton.isChecked())
             results.add(Day.valueOf("M"));
         if(tuesdayToggleButton.isChecked())

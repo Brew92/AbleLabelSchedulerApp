@@ -107,6 +107,18 @@ public class DetailedSchedule extends Activity {
         }
         else
             finish();
+    /*
+        if (intent.hasExtra("BlockOutTime Data")) {//added
+            String scheduleString = intent.getStringExtra("Schedule Data");
+            try {
+                JSONObject scheduleJSON = new JSONObject(scheduleString);
+                scheduleToShow = new Schedule(scheduleJSON);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        else
+            finish();*/
 
         LocalBroadcastManager.getInstance(this).registerReceiver(new CouresAlternatesReciever(), new IntentFilter(ACTION_GET_COURSE_SECTIONS));
         LocalBroadcastManager.getInstance(this).registerReceiver(new VerifyScheduleReciever(), new IntentFilter(ACTION_VERIFY_SCHEDULE));
@@ -183,6 +195,19 @@ public class DetailedSchedule extends Activity {
         // progressDialog Safety
         if(progressDialog != null)
             progressDialog.dismiss();
+    }
+    public void viewCalendar(View view){
+        Log.d("DetailedSchedule", "Opening View Schedule");
+        Intent startViewScheduleActivity = new Intent(DetailedSchedule.this, ViewScheduleWeek.class);
+        try {
+            startViewScheduleActivity.putExtra("Schedule",scheduleToShow.toJSON().toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("DetailedSchedule", "Could not parse schedule to JSON");
+        }
+        //startViewScheduleActivity.putExtra("BlockList",blocks);
+        DetailedSchedule.this.startActivity(startViewScheduleActivity);
     }
 
     /**
@@ -277,10 +302,15 @@ public class DetailedSchedule extends Activity {
             });
             confirmOverWrite.show();
         }
-
+        /*
         if (saveCheck) {
+            for (Section section : scheduleToShow.getSelectedSections())
+            {
+                if (section.getSectionID() == BlockType.SLEEP) {
+
+                }
             Schedule.saveScheduleToFile(scheduleToShow);
-        }
+        }*/
     }
 
 
@@ -518,6 +548,7 @@ public class DetailedSchedule extends Activity {
         Intent scheduleIntent = new Intent(context, DetailedSchedule.class);
         try {
             scheduleIntent.putExtra("Schedule Data", scheduleToShow.toJSON().toString());
+
         } catch (JSONException e) {
             e.printStackTrace();
             Log.e("DetailedSchedule", "Could not parse schedule to JSON");

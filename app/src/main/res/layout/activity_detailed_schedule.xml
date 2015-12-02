@@ -58,6 +58,16 @@
                 android:text="SAVE"
                 android:id="@+id/schedule_save_button"
                 android:onClick="saveSchedule" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Schedule"
+                android:id="@+id/button3"
+                android:layout_gravity="right"
+                android:onClick="viewCalendar"/>
+
+
         </LinearLayout>
     </HorizontalScrollView>
 

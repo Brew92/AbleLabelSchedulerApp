@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="text_sunday">Sunday</string>
     <string name="text_monday">Monday</string>
     <string name="text_tuesday">Tuesday</string>
     <string name="text_wednesday">Wednesday</string>

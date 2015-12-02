@@ -35,6 +35,17 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:text="@string/text_sunday"
+                    android:id="@+id/sunday_toggleButton"
+                    android:checked="false"
+                    android:textOn="SUN"
+                    android:textOff="SUN"
+                    android:background="@color/button_material_light" />
+
+                <ToggleButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:text="@string/text_monday"
                     android:id="@+id/monday_toggleButton"
                     android:checked="false"
@@ -111,6 +122,58 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="1">
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="192dp"
+                        android:layout_weight="0.74">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Work Button"
+                            android:id="@+id/work_RadioButton" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Commute"
+                            android:id="@+id/commute_RadioButton" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sleep"
+                            android:id="@+id/sleep_RadioButton" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Study"
+                            android:id="@+id/study_RadioButton" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Other"
+                            android:id="@+id/other_RadioButton" />
+
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Block-Out Type"
+                        android:id="@+id/textView4"
+                        android:layout_gravity="bottom" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:orientation="vertical"

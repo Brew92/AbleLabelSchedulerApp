@@ -13,4 +13,12 @@
     <string name="action_about">About</string>
     <string name="action_logout">Logout</string>
     <string name="action_sync">Sync</string>
+    <string name="calendarGrid">imageCalendar</string>
+
+    <!--Todd's Buttons -->
+    <string name="title_activity_view_calendar">viewCalendar</string>
+    <string name="action_settings_buttons">SettingsButton</string>
+    <string name="workButton">Work</string>
+    <string name="title_activity_view_calendar_week">title_activity_view_calendar_week</string>
+    <string name="title_activity_view_calendar_day">title_activity_view_calendar_day</string>
 </resources>

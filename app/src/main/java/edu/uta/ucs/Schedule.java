@@ -34,6 +34,7 @@ public class Schedule {
     private int semesterNumber = 0;
     private int scheduleID = 0;
     private ArrayList<Section> selectedSections;
+    private ArrayList<Section> selectedBlockOutTimes;
 
     /**
      * Constructs a new Schedule object with the provided information
@@ -46,6 +47,13 @@ public class Schedule {
         this.name = name;
         this.semesterNumber = semesterNumber;
         this.selectedSections = sectionArrayList;
+    }
+
+    Schedule(String name, int semesterNumber, ArrayList<Section> sectionArrayList, ArrayList<Section> blockOutTimesList){
+        this.name = name;
+        this.semesterNumber = semesterNumber;
+        this.selectedSections = sectionArrayList;
+        this.selectedBlockOutTimes = blockOutTimesList;
     }
 
     /**
@@ -70,12 +78,24 @@ public class Schedule {
         Log.i("Schedule Course", scheduleJSON.getString("ScheduleCourses"));
 
         JSONArray scheduleCoursesJSONArray = scheduleJSON.getJSONArray("ScheduleCourses");
-
         ArrayList<Course> semesterCourses = Course.buildCourseList(scheduleCoursesJSONArray);
         selectedSections = new ArrayList<>(semesterCourses.size());
         for (Course course : semesterCourses){
             selectedSections.addAll(course.getSectionList());
         }
+
+        if(scheduleJSON.has("BlockOutTimes")){
+            JSONArray blockOutTimesJSONArray = scheduleJSON.getJSONArray("BlockOutTimes");
+            ArrayList<Course> blockOutTimes = Course.buildCourseList(blockOutTimesJSONArray);
+            for (Course course : blockOutTimes)
+            {
+                selectedSections.addAll(course.getSectionList());
+            }
+        }
+
+
+
+
     }
 
     public String getName() {
@@ -118,11 +138,24 @@ public class Schedule {
             selectedSectionsString.add(section.getSourceCourse().toJSON(section));
         }
         JSONArray selectedSectionsJSONArray = new JSONArray(selectedSectionsString);
-
         result.put("ScheduleCourses", selectedSectionsJSONArray);
+        if (selectedBlockOutTimes != null) {
+            ArrayList<JSONObject> selectedBlockOutTimesString = new ArrayList<>(selectedBlockOutTimes.size()); //added
+            for (Section blockOuTime : selectedBlockOutTimes) { //added
+                selectedBlockOutTimesString.add(blockOuTime.getSourceCourse().toJSON(blockOuTime));
+            }
+            JSONArray selectedBlockOutTimesJSONArray = new JSONArray(selectedBlockOutTimesString);
+            result.put("BlockOutTimes", selectedBlockOutTimesJSONArray);
+        }
+
+
+
+
+
 
         return result;
     }
+
 
     /**
      * Builds an ArrayList of Schedules based on a JSONArray
@@ -318,12 +351,19 @@ public class Schedule {
      * @throws NoSchedulesPossibleException
      */
     public static Schedule scheduleFactory(ArrayList<Course> courseArrayList, ArrayList<Section> blockOutTimesList, int semesterNumber) throws NoSchedulesPossibleException{
+        /*
+        SharedPreferences preferences = UserData.getContext().getSharedPreferences("C", Context.MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor = preferences.edit();
+        //preferencesEditor.clear();
+        preferencesEditor.putString(HTTPService.SPOOFED_RESPONSE, spoofData).commit();*/
+
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(UserData.getContext());
+
         boolean allowNonOpenClassesSetting = settings.getBoolean(UserData.getContext().getResources().getString(R.string.pref_key_allow_nonopen_classes), false);
 
         ArrayList<Section> selectedSections = scheduleBuilder(0, courseArrayList, new ArrayList<Section>(), blockOutTimesList, allowNonOpenClassesSetting);
-        return new Schedule("Generated Schedule", semesterNumber, selectedSections);
+        return new Schedule("Generated Schedule", semesterNumber, selectedSections, blockOutTimesList); //Todd added new constructor with blockouts included
     }
 
     /**
@@ -395,7 +435,7 @@ public class Schedule {
 
             if(!conflictDetected){
                 Log.i("Adding Section to List", section.toJSON().toString());
-                alreadySelectedSections.add(section);
+                alreadySelectedSections.add(section); //Add the class section to this array if there are no conflicts with the blockout times
 
                 try{
                     return scheduleBuilder(index + 1, courseArrayList, alreadySelectedSections, blockOutTimesList, allowNonOpenClasses);

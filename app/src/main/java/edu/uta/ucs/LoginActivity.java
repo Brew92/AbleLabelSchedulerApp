@@ -253,6 +253,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         Intent launchCreateSettingsActivity = new Intent(LoginActivity.this, SettingsActivity.class);
         LoginActivity.this.startActivity(launchCreateSettingsActivity);
     }
+    /*
+    public void viewCalendar(View view){
+        Log.d("DetailedSchedule", "Opening View Schedule");
+        Intent startViewScheduleActivity = new Intent(LoginActivity.this, ViewScheduleWeek.class);
+        //intent.putExtra(, );
+        LoginActivity.this.startActivity(startViewScheduleActivity);
+    }*/
+
     public void resetPasswordDialog(View view){
         Log.d("Reset Dialog", "Attempting to show dialogue");
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
