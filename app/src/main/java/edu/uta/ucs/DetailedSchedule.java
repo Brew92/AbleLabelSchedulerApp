@@ -140,52 +140,103 @@ public class DetailedSchedule extends Activity {
      */
     public void saveSchedule(View view){
 
+        int suHrs = 0;
+        int mHrs = 0;
+        int tuHrs = 0;
+        int wHrs = 0;
+        int thHrs = 0;
+        int fHrs = 0;
+        int saHrs = 0;
 
-        // Presents the user with an AlertDialog to enter a name for the schedule.
-        final AlertDialog.Builder saveNameDialog = new AlertDialog.Builder(this);
+        boolean sleepTime = false;
+        for (Section section : scheduleToShow.getSelectedSections()) {
+            if (section.getSectionID() == -3) {
+                if (section.getDaysString().contains("SU")) {
+                    suHrs += (section.getEndTime().getMinAfterMidnight() - section.getStartTime().getMinAfterMidnight());
 
-        saveNameDialog.setTitle("Save as");
-        saveNameDialog.setMessage("What do you want to save this set of times as?");
+                }
+                if (section.getDaysString().contains("M")) {
+                    mHrs += (section.getEndTime().getMinAfterMidnight() - section.getStartTime().getMinAfterMidnight());
 
-        final EditText blockoutNameEditTextDialog = new EditText(DetailedSchedule.this);
-        saveNameDialog.setView(blockoutNameEditTextDialog);
+                }
+                if (section.getDaysString().contains("TU")) {
+                    tuHrs += (section.getEndTime().getMinAfterMidnight() - section.getStartTime().getMinAfterMidnight());
 
-        saveNameDialog.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+                }
+                if (section.getDaysString().contains("W")) {
+                    wHrs += (section.getEndTime().getMinAfterMidnight() - section.getStartTime().getMinAfterMidnight());
 
-            /**
-             * This method will be invoked when a button in the dialog is clicked.
-             *
-             * @param dialog The dialog that received the click.
-             * @param which  The button that was clicked (e.g.
-             *               {@link android.content.DialogInterface#BUTTON1}) or the position
-             */
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Get text from dialog
-                String scheduleSaveName = blockoutNameEditTextDialog.getEditableText().toString();
-                // Set schedule name
-                setName(scheduleSaveName);
-                // Save schedule
-                saveScheduleToFile();
+                }
+                if (section.getDaysString().contains("TH")) {
+                    thHrs += (section.getEndTime().getMinAfterMidnight() - section.getStartTime().getMinAfterMidnight());
+
+                }
+                if (section.getDaysString().contains("F")) {
+                    fHrs += (section.getEndTime().getMinAfterMidnight() - section.getStartTime().getMinAfterMidnight());
+
+                }
+                if (section.getDaysString().contains("SA")) {
+                    saHrs += (section.getEndTime().getMinAfterMidnight() - section.getStartTime().getMinAfterMidnight());
+
+                }
+
             }
-        });
+        }
 
-        saveNameDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+        if ((suHrs < 360) || (mHrs < 6) || (tuHrs < 6) || (wHrs < 6) || (thHrs < 6) || (fHrs < 6) || (saHrs < 6))
+        {
+            AlertDialog.Builder sleepErrorDialog = new AlertDialog.Builder(DetailedSchedule.this);
+            sleepErrorDialog.setTitle("There needs to be at least 6 hours for each day.");
 
-            /**
-             * This method will be invoked when a button in the dialog is clicked.
-             *
-             * @param dialog The dialog that received the click.
-             * @param which  The button that was clicked (e.g.
-             *               {@link android.content.DialogInterface#BUTTON1}) or the position
-             */
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+            sleepErrorDialog.show();
+        }
+        else {
+            // Presents the user with an AlertDialog to enter a name for the schedule.
+            final AlertDialog.Builder saveNameDialog = new AlertDialog.Builder(this);
 
-        saveNameDialog.show();
+            saveNameDialog.setTitle("Save as");
+            saveNameDialog.setMessage("What do you want to save this set of times as?");
+
+            final EditText blockoutNameEditTextDialog = new EditText(DetailedSchedule.this);
+            saveNameDialog.setView(blockoutNameEditTextDialog);
+
+            saveNameDialog.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+
+                /**
+                 * This method will be invoked when a button in the dialog is clicked.
+                 *
+                 * @param dialog The dialog that received the click.
+                 * @param which  The button that was clicked (e.g.
+                 *               {@link android.content.DialogInterface#BUTTON1}) or the position
+                 */
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Get text from dialog
+                    String scheduleSaveName = blockoutNameEditTextDialog.getEditableText().toString();
+                    // Set schedule name
+                    setName(scheduleSaveName);
+                    // Save schedule
+                    saveScheduleToFile();
+                }
+            });
+
+            saveNameDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+
+                /**
+                 * This method will be invoked when a button in the dialog is clicked.
+                 *
+                 * @param dialog The dialog that received the click.
+                 * @param which  The button that was clicked (e.g.
+                 *               {@link android.content.DialogInterface#BUTTON1}) or the position
+                 */
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            saveNameDialog.show();
+        }
     }
 
     @Override
@@ -302,15 +353,13 @@ public class DetailedSchedule extends Activity {
             });
             confirmOverWrite.show();
         }
-        /*
-        if (saveCheck) {
-            for (Section section : scheduleToShow.getSelectedSections())
-            {
-                if (section.getSectionID() == BlockType.SLEEP) {
 
-                }
-            Schedule.saveScheduleToFile(scheduleToShow);
-        }*/
+        if (saveCheck) {
+
+
+                Schedule.saveScheduleToFile(scheduleToShow);
+
+        }
     }
 
 

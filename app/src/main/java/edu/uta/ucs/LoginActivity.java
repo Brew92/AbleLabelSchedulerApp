@@ -220,7 +220,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(true);
 
             //HTTPService.FetchURL(url, ACTION_LOGIN, this);
-            HTTPService.PostJSON(LOGIN_URL, loginData,ACTION_LOGIN,this);
+            HTTPService.PostJSON(url, loginData,ACTION_LOGIN,this);
 
             /*
             Intent intent = new Intent(this, HTTPService.class);
@@ -467,6 +467,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     mPasswordView.setText("");
                     
                     // Set UserData to be called from various places in the app
+                    showProgress(false);
                     UserData.setUserData(response);
                     Intent launchMainActivity = new Intent(LoginActivity.this, MainActivity.class);
                     LoginActivity.this.startActivity(launchMainActivity);

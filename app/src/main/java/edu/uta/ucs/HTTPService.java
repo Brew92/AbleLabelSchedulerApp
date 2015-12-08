@@ -413,6 +413,7 @@ public class HTTPService extends IntentService {
         //"https://ablesched.ddns.net:8080/test";// + urlToFetch;//UserData.getContext().getResources().getString(R.string.domain) + urlToFetch;
 
         Intent intent = new Intent(context, HTTPService.class);
+
         intent.putExtra(HTTPService.REQUEST_TYPE, HTTPService.REQUEST_URL);
 
         if(UserData.spoofServer()){ // Spoof server response

@@ -134,6 +134,7 @@ public class UserData extends Application {
         UserData.setMilitaryTime(false);
         UserData.setSession_id(null);
 
+
     }
 
     public static Context getContext() {

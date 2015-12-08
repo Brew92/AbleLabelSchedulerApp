@@ -2,9 +2,12 @@
 <resources>
     <!-- Changed by Todd 10/10/2015 3:02pm
      from <string name="domain">http://192.168.2.12/UCS</string>
-     to   <string name="domain">http://ucs.azurewebsites.net/UTA</string> -->
-    <string name="domain">http://ucs.azurewebsites.net/UTA</string>
-    <string name="create_account_base">/CreateAccount?</string>
+     to   <string name="domain">http://ucs.azurewebsites.net/UTA</string>
+     <string name="domain">http://ablesched.ddns.net:8080/PHPincludes</string>
+
+     -->
+    <string name="domain">http://ablesched.ddns.net:8080</string>
+    <string name="create_account_base">/PHPincludes/register_user.php?</string>
     <string name="create_account_param_username">username=</string>
     <string name="create_account_param_password"><![CDATA[&password=]]></string>
     <string name="create_account_param_hashedpwd"><![CDATA[&hashedpwd=]]></string>
@@ -38,8 +41,8 @@
     <!-- Changed by Todd 10/10/2015 3:02pm
      from <string name="get_semester_data">/GetDepartmentClassData.JSON</string>
      to   <string name="get_semester_data">/GetDepartmentClassData</string> -->
-    <string name="get_semester_data">/GetDepartmentClassData</string>
+    <string name="get_semester_data">/GetDepartmentClassData.JSON</string>
 
     <string name="change_settings_base">/Change</string>
-    <string name="delete_account">/DeleteAccount?email=</string>
+    <string name="delete_account">/PHPincludes/delete_user.php?</string>
 </resources>

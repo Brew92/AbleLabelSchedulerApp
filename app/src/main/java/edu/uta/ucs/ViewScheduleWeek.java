@@ -4,9 +4,6 @@ package edu.uta.ucs;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.ProgressDialog;
@@ -14,13 +11,10 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-
-import android.content.Context;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,8 +22,6 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 
 /**
@@ -172,7 +164,15 @@ public class ViewScheduleWeek extends Activity {
             if (section.getDaysString().contains("SU"))
             {
                 ImageView blockImg = new ImageView(this); //Build block image
-                blockImg.setImageResource(R.drawable.round_rect_shape);
+                switch (section.getSectionID())
+                {
+                    case(-1): {blockImg.setImageResource(R.drawable.round_rect_work); break;}//work
+                    case(-2): {blockImg.setImageResource(R.drawable.round_rect_com); break;}//commute
+                    case(-3): {blockImg.setImageResource(R.drawable.round_rect_sleep); break;}//sleep
+                    case(-4): {blockImg.setImageResource(R.drawable.round_rect_study); break;}//study
+                    case(-5): {blockImg.setImageResource(R.drawable.round_rect_other); break;}//other
+                    default: {blockImg.setImageResource(R.drawable.round_rect_class); break;}//class
+                }
 
                 TextView text = new TextView(this);
                 text.setTextAppearance(this, android.R.style.TextAppearance_Small);
@@ -188,7 +188,15 @@ public class ViewScheduleWeek extends Activity {
             if (section.getDaysString().contains("M"))
             {
                 ImageView blockImg = new ImageView(this); //Build block image
-                blockImg.setImageResource(R.drawable.round_rect_shape);
+                switch (section.getSectionID())
+                {
+                    case(-1): {blockImg.setImageResource(R.drawable.round_rect_work); break;}//work
+                    case(-2): {blockImg.setImageResource(R.drawable.round_rect_com); break;}//commute
+                    case(-3): {blockImg.setImageResource(R.drawable.round_rect_sleep); break;}//sleep
+                    case(-4): {blockImg.setImageResource(R.drawable.round_rect_study); break;}//study
+                    case(-5): {blockImg.setImageResource(R.drawable.round_rect_other); break;}//other
+                    default: {blockImg.setImageResource(R.drawable.round_rect_class); break;}//class
+                }
 
                 TextView text = new TextView(this);
                 text.setTextAppearance(this, android.R.style.TextAppearance_Small);
@@ -204,7 +212,15 @@ public class ViewScheduleWeek extends Activity {
             if (section.getDaysString().contains("TU"))
             {
                 ImageView blockImg = new ImageView(this); //Build block image
-                blockImg.setImageResource(R.drawable.round_rect_shape);
+                switch (section.getSectionID())
+                {
+                    case(-1): {blockImg.setImageResource(R.drawable.round_rect_work); break;}//work
+                    case(-2): {blockImg.setImageResource(R.drawable.round_rect_com); break;}//commute
+                    case(-3): {blockImg.setImageResource(R.drawable.round_rect_sleep); break;}//sleep
+                    case(-4): {blockImg.setImageResource(R.drawable.round_rect_study); break;}//study
+                    case(-5): {blockImg.setImageResource(R.drawable.round_rect_other); break;}//other
+                    default: {blockImg.setImageResource(R.drawable.round_rect_class); break;}//class
+                }
 
                 TextView text = new TextView(this);
                 text.setTextAppearance(this, android.R.style.TextAppearance_Small);
@@ -220,7 +236,15 @@ public class ViewScheduleWeek extends Activity {
             if (section.getDaysString().contains("W"))
             {
                 ImageView blockImg = new ImageView(this); //Build block image
-                blockImg.setImageResource(R.drawable.round_rect_shape);
+                switch (section.getSectionID())
+                {
+                    case(-1): {blockImg.setImageResource(R.drawable.round_rect_work); break;}//work
+                    case(-2): {blockImg.setImageResource(R.drawable.round_rect_com); break;}//commute
+                    case(-3): {blockImg.setImageResource(R.drawable.round_rect_sleep); break;}//sleep
+                    case(-4): {blockImg.setImageResource(R.drawable.round_rect_study); break;}//study
+                    case(-5): {blockImg.setImageResource(R.drawable.round_rect_other); break;}//other
+                    default: {blockImg.setImageResource(R.drawable.round_rect_class); break;}//class
+                }
 
                 TextView text = new TextView(this);
                 text.setTextAppearance(this, android.R.style.TextAppearance_Small);
@@ -236,7 +260,15 @@ public class ViewScheduleWeek extends Activity {
             if (section.getDaysString().contains("TH"))
             {
                 ImageView blockImg = new ImageView(this); //Build block image
-                blockImg.setImageResource(R.drawable.round_rect_shape);
+                switch (section.getSectionID())
+                {
+                    case(-1): {blockImg.setImageResource(R.drawable.round_rect_work); break;}//work
+                    case(-2): {blockImg.setImageResource(R.drawable.round_rect_com); break;}//commute
+                    case(-3): {blockImg.setImageResource(R.drawable.round_rect_sleep); break;}//sleep
+                    case(-4): {blockImg.setImageResource(R.drawable.round_rect_study); break;}//study
+                    case(-5): {blockImg.setImageResource(R.drawable.round_rect_other); break;}//other
+                    default: {blockImg.setImageResource(R.drawable.round_rect_class); break;}//class
+                }
 
                 TextView text = new TextView(this);
                 text.setTextAppearance(this, android.R.style.TextAppearance_Small);
@@ -252,7 +284,15 @@ public class ViewScheduleWeek extends Activity {
             if (section.getDaysString().contains("F"))
             {
                 ImageView blockImg = new ImageView(this); //Build block image
-                blockImg.setImageResource(R.drawable.round_rect_shape);
+                switch (section.getSectionID())
+                {
+                    case(-1): {blockImg.setImageResource(R.drawable.round_rect_work); break;}//work
+                    case(-2): {blockImg.setImageResource(R.drawable.round_rect_com); break;}//commute
+                    case(-3): {blockImg.setImageResource(R.drawable.round_rect_sleep); break;}//sleep
+                    case(-4): {blockImg.setImageResource(R.drawable.round_rect_study); break;}//study
+                    case(-5): {blockImg.setImageResource(R.drawable.round_rect_other); break;}//other
+                    default: {blockImg.setImageResource(R.drawable.round_rect_class); break;}//class
+                }
 
                 TextView text = new TextView(this);
                 text.setTextAppearance(this, android.R.style.TextAppearance_Small);
@@ -268,8 +308,16 @@ public class ViewScheduleWeek extends Activity {
             if (section.getDaysString().contains("SA"))
             {
                 ImageView blockImg = new ImageView(this); //Build block image
-                blockImg.setImageResource(R.drawable.round_rect_shape);
 
+                switch (section.getSectionID())
+                {
+                    case(-1): {blockImg.setImageResource(R.drawable.round_rect_work); break;}//work
+                    case(-2): {blockImg.setImageResource(R.drawable.round_rect_com); break;}//commute
+                    case(-3): {blockImg.setImageResource(R.drawable.round_rect_sleep); break;}//sleep
+                    case(-4): {blockImg.setImageResource(R.drawable.round_rect_study); break;}//study
+                    case(-5): {blockImg.setImageResource(R.drawable.round_rect_other); break;}//other
+                    default: {blockImg.setImageResource(R.drawable.round_rect_class); break;}//class
+                }
                 TextView text = new TextView(this);
                 text.setTextAppearance(this, android.R.style.TextAppearance_Small);
                 text.setText(section.getDescription());
@@ -311,6 +359,7 @@ public class ViewScheduleWeek extends Activity {
 
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -27,6 +27,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -319,8 +322,17 @@ public class SettingsActivity extends PreferenceActivity {
         confirmDelete.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String deleteAccountURL = UserData.getContext().getString(R.string.delete_account) + UserData.getEmail();
-                HTTPService.FetchURL(deleteAccountURL, "null", context);
+                //String deleteAccountURL = UserData.getContext().getString(R.string.delete_account) + UserData.getEmail();
+                String deleteAccountURL = UserData.getContext().getString(R.string.delete_account);
+                JSONObject deleteAccount = new JSONObject(); //Todd added json object stuff
+
+                try {
+                    deleteAccount.put("email",UserData.getEmail());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                HTTPService.PostJSON(deleteAccountURL, deleteAccount, "null", context);
+                //HTTPService.FetchURL(deleteAccountURL, "null", context);
             }
         });
         confirmDelete.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

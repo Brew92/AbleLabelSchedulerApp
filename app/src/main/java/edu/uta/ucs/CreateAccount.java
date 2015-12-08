@@ -1,6 +1,7 @@
 package edu.uta.ucs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,6 +19,9 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 
 /**
  * This Activity is the input form for a user to create a new account. It should only be launched from the login screen.
@@ -29,7 +33,7 @@ public class CreateAccount extends Activity {
     public static final String CREATE_ACCOUNT_URL[] = {
             UserData.getContext().getString(R.string.create_account_base),
             UserData.getContext().getString(R.string.create_account_param_username),
-            UserData.getContext().getString(R.string.create_account_param_password),
+            UserData.getContext().getString(R.string.create_account_param_hashedpwd), //changed from password to hashedpwd
             UserData.getContext().getString(R.string.create_account_param_email)};
 
     // ProgressDialog to show after url request is sent to server. The reciever will dismiss it, so it must be referable outside of the method which will create and start it.
@@ -100,6 +104,7 @@ public class CreateAccount extends Activity {
         String email = ((EditText) findViewById(R.id.create_account_email)).getText().toString();
         String username = ((EditText) findViewById(R.id.create_account_username)).getText().toString();
         String password = ((EditText) findViewById(R.id.create_account_password)).getText().toString();
+        String hashedpwd = ""; //Todd added
         String passwordConfirmation = ((EditText) findViewById(R.id.create_account_confirm_password)).getText().toString();
 
         // Check valid
@@ -120,8 +125,42 @@ public class CreateAccount extends Activity {
             cancel = true;
         }
 
+
+        try {                                                             //Todd added hashpassword stuff
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(password.getBytes());
+
+            byte byteData[] = md.digest();
+
+            //convert the byte to hex format method 1
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < byteData.length; i++) {
+                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            }
+
+            //convert the byte to hex format method 2
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0;i<byteData.length;i++) {
+                String hex=Integer.toHexString(0xff & byteData[i]);
+                if(hex.length()==1) hexString.append('0');
+                hexString.append(hex);
+            }
+            hashedpwd = hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }  //Todd ended haspassword stuff
+
+        JSONObject createAccountData = new JSONObject(); //Todd added json object stuff
+
+        try {
+            createAccountData.put("username",username);
+            createAccountData.put("hashedpwd",hashedpwd);
+            createAccountData.put("email",email);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         // Build url from user given fields
-        url = CREATE_ACCOUNT_URL[0]+CREATE_ACCOUNT_URL[1]+username+CREATE_ACCOUNT_URL[2]+password+CREATE_ACCOUNT_URL[3]+email;
+        url = CREATE_ACCOUNT_URL[0]+CREATE_ACCOUNT_URL[1]+username+CREATE_ACCOUNT_URL[2]+hashedpwd+CREATE_ACCOUNT_URL[3]+email; //changed password to haspedpwd
 
         /* Depreciated with implementation of HTTPService.FetchURL()
         // Create activity intent
@@ -136,7 +175,8 @@ public class CreateAccount extends Activity {
             focusView.requestFocus();
         }
         else {
-            HTTPService.FetchURL(url, ACTION_CREATE_ACCOUNT, this);
+            HTTPService.PostJSON(url, createAccountData, ACTION_CREATE_ACCOUNT, this); //Todd added
+            //HTTPService.FetchURL(url, ACTION_CREATE_ACCOUNT, this); Todd removed
 
             /* Removed after implementation of HTTPService.FetchURL()
             // Spoof data switch
@@ -208,7 +248,7 @@ public class CreateAccount extends Activity {
                 // create JSONObject from server response. Should always work.
                 response = new JSONObject(intent.getStringExtra(HTTPService.SERVER_RESPONSE));
                 // Server generated. Represents a valid server request.
-                success = response.getBoolean("Success");
+                success = response.getBoolean("SUCCESS");//Todd changed to caps
 
                 // If server sent a message with the response, show it.
                 if(response.has("Message")) {
@@ -236,6 +276,11 @@ public class CreateAccount extends Activity {
                     finish();
                 }
                 else {
+
+
+                    AlertDialog.Builder sleepErrorDialog = new AlertDialog.Builder(CreateAccount.this);
+                    sleepErrorDialog.setTitle(response.getString("ERRORS"));
+                    sleepErrorDialog.show();
                     // Clears passwords fields. Just in case...
                     ((EditText) findViewById(R.id.create_account_password)).setText("");
                     ((EditText) findViewById(R.id.create_account_confirm_password)).setText("");
